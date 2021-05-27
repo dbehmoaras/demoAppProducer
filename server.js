@@ -4,7 +4,7 @@ const path = require("path");
 const AtomicKafkaServer = require('atomic-kafka/server')
 const fs = require('fs');
 
-const port = 3001;
+const port = 3002;
 
 
 app.use(express.urlencoded({ extended:true }));
@@ -35,36 +35,36 @@ atomicKafkaInstance.newProducer('test_topic');
 atomicKafkaInstance.globalProduce('postMessage', 'test_topic')
 
 
-const produceMyWay = () => {
-  // select * from db
-  let data;
-  let toSend = [];
-  try {
-    data = fs.readFileSync('salesData.json', 'UTF-8');
-    const lines = data.split(/\r?\n/);
-    // lines.pop();
-    lines.forEach((line) => {
-      toSend.push(line);
-    })
-  }
-  catch (err){
-    console.error(err);
-  }
-  let i = 0;
-  const interval = setInterval(async () => {
-			console.log('i: ', i)
-			if(i > toSend.length - 1) {
-				i = 0;
-			}
-			try {
-				console.log('executing send with: ', toSend[i]);
-        atomicKafkaInstance.socketProduce(toSend[i],'test_topic');
-				i++;
-			}
-			catch (err) {
-				console.log('Error with producing in produce(): ', err);
-			}
-		}, 5000)
-}
+// const produceMyWay = () => {
+//   // select * from db
+//   let data;
+//   let toSend = [];
+//   try {
+//     data = fs.readFileSync('salesData.json', 'UTF-8');
+//     const lines = data.split(/\r?\n/);
+//     // lines.pop();
+//     lines.forEach((line) => {
+//       toSend.push(line);
+//     })
+//   }
+//   catch (err){
+//     console.error(err);
+//   }
+//   let i = 0;
+//   const interval = setInterval(async () => {
+// 			console.log('i: ', i)
+// 			if(i > toSend.length - 1) {
+// 				i = 0;
+// 			}
+// 			try {
+// 				console.log('executing send with: ', toSend[i]);
+//         atomicKafkaInstance.socketProduce(toSend[i],'test_topic');
+// 				i++;
+// 			}
+// 			catch (err) {
+// 				console.log('Error with producing in produce(): ', err);
+// 			}
+// 		}, 5000)
+// }
 
 // produceMyWay();
