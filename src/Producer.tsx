@@ -16,13 +16,13 @@ function Producer() {
   // console.log(AtomicKafkaClient)
   const [sku, setSku] = useState('')
   const [qty, setQty] = useState('')
-  const [id, setId] = useState('') 
+  const [id, setId] = useState('')
 
-  const akc = new AtomicKafkaClient('http://localhost:3001')
+  const akc = new AtomicKafkaClient('http://localhost:3002')
 
   function socketProducerInvoke() {
     console.log("the state of num is now...", qty);
-    const socket = ioClient('http://localhost:3001');
+    const socket = ioClient('http://localhost:3002');
 
     console.log('*** POST MESSAGE OBJECT:',{
       id: String(id),
@@ -36,7 +36,7 @@ function Producer() {
     };
 
     socket.emit('postMessage', payload)
-    
+
     return () => {
         console.log("is Producer ever off?");
         socket.off();
